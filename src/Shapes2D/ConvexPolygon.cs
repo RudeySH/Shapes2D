@@ -1,7 +1,7 @@
 ﻿using System.Collections.Generic;
 using Microsoft.Xna.Framework;
 
-namespace RLenders.MonoGame.Draw2D.Shapes
+namespace Shapes2D
 {
     /// <summary>
     /// Convex: any line drawn through the polygon (and not tangent to an edge or corner) meets its boundary exactly twice.
@@ -10,7 +10,7 @@ namespace RLenders.MonoGame.Draw2D.Shapes
     /// </summary>
     public class ConvexPolygon : Polygon
     {
-        public ConvexPolygon(ShapeBatch shapeBatch, Vector2[] vertices) : base(shapeBatch, vertices) { }
+        public ConvexPolygon(Vector2[] vertices) : base(vertices) { }
 
         protected override void Triangulate()
         {

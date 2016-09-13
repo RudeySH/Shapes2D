@@ -2,7 +2,7 @@
 using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
 
-namespace RLenders.MonoGame.Draw2D.Demo
+namespace Shapes2D.Samples.Grid
 {
     /// <summary>
     /// Implementation by Shawn Hargreaves:

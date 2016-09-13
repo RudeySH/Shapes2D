@@ -1,7 +1,7 @@
 ﻿using System;
 using Microsoft.Xna.Framework;
 
-namespace RLenders.MonoGame.Draw2D.Demo
+namespace Shapes2D.Samples.Grid
 {
     /// <summary>
     /// Various static and extension methods for colors.

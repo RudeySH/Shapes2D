@@ -1,3 +1,3 @@
-# RLenders.MonoGame.Draw2D
+# Shapes2D
 
-Draw 2D shapes in MonoGame, without using textures. Currently only supports convex polygons.
+Draw 2D geometry in MonoGame/XNA, including primitives such as lines and polygons.
