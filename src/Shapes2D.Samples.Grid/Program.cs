@@ -1,9 +1,7 @@
 ﻿using System;
-using RLenders.MonoGame.Draw2D.Demo;
 
-namespace RLenders.MonoGame.Draw2D
+namespace Shapes2D.Samples.Grid
 {
-#if WINDOWS || LINUX
     /// <summary>
     /// The main class.
     /// </summary>
@@ -15,9 +13,8 @@ namespace RLenders.MonoGame.Draw2D
         [STAThread]
         static void Main()
         {
-            using (var game = new GridDemo())
+            using (var game = new Game1())
                 game.Run();
         }
     }
-#endif
 }

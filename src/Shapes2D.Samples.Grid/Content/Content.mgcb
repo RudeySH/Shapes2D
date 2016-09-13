@@ -1,9 +1,9 @@
 
 #----------------------------- Global Properties ----------------------------#
 
-/outputDir:.\
+/outputDir:bin/$(Platform)
 /intermediateDir:obj/$(Platform)
-/platform:Windows
+/platform:DesktopGL
 /config:
 /profile:Reach
 /compress:False
@@ -12,10 +12,4 @@
 
 
 #---------------------------------- Content ---------------------------------#
-
-#begin Arial.spritefont
-/importer:FontDescriptionImporter
-/processor:FontDescriptionProcessor
-/processorParam:TextureFormat=Compressed
-/build:Arial.spritefont
 

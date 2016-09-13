@@ -1,12 +1,11 @@
 ﻿using System.Reflection;
-using System.Runtime.CompilerServices;
 using System.Runtime.InteropServices;
 
 // General Information about an assembly is controlled through the following 
 // set of attributes. Change these attribute values to modify the information
 // associated with an assembly.
-[assembly: AssemblyTitle("RLenders.MonoGame.Draw2D")]
-[assembly: AssemblyProduct("RLenders.MonoGame.Draw2D")]
+[assembly: AssemblyTitle("Shapes2D")]
+[assembly: AssemblyProduct("Shapes2D")]
 [assembly: AssemblyConfiguration("")]
 [assembly: AssemblyDescription("")]
 [assembly: AssemblyCompany("")]
@@ -20,7 +19,7 @@ using System.Runtime.InteropServices;
 [assembly: ComVisible(false)]
 
 // The following GUID is for the ID of the typelib if this project is exposed to COM
-[assembly: Guid("3c9b809f-aeea-4094-ab95-bc8e78957177")]
+[assembly: Guid("ce0ec77a-8a71-4cb1-ad63-43480797d605")]
 
 // Version information for an assembly consists of the following four values:
 //
