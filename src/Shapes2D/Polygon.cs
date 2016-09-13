@@ -1,4 +1,5 @@
-﻿using Microsoft.Xna.Framework;
+﻿using System.Collections.Generic;
+using Microsoft.Xna.Framework;
 
 namespace Shapes2D
 {
@@ -6,9 +7,9 @@ namespace Shapes2D
     {
         public int Edges { get; private set; }
 
-        protected Polygon(Vector2[] vertices) : base(vertices)
+        public Polygon(IEnumerable<Vector2> vertices) : base(vertices)
         {
-            Edges = vertices.Length;
+            Edges = Vertices.Count;
         }
     }
 }

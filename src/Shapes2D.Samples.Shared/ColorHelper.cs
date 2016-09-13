@@ -1,7 +1,7 @@
 ﻿using System;
 using Microsoft.Xna.Framework;
 
-namespace Shapes2D.Samples.Grid
+namespace Shapes2D.Samples.Shared
 {
     /// <summary>
     /// Various static and extension methods for colors.

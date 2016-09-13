@@ -1,4 +1,6 @@
-﻿using Microsoft.Xna.Framework;
+﻿using System.Collections.Generic;
+using System.Collections.ObjectModel;
+using Microsoft.Xna.Framework;
 
 namespace Shapes2D
 {
@@ -7,7 +9,7 @@ namespace Shapes2D
         /// <summary>
         /// Collection of coordinates.
         /// </summary>
-        public Vector2[] Vertices { get; set; }
+        public ObservableCollection<Vector2> Vertices { get; private set; }
 
         /// <summary>
         /// Translation relative to the top-left corner of the screen.
@@ -34,9 +36,9 @@ namespace Shapes2D
         /// </summary>
         public virtual Color Stroke { get; set; }
 
-        protected Primitive(Vector2[] vertices)
+        protected Primitive(IEnumerable<Vector2> vertices)
         {
-            Vertices = vertices;
+            Vertices = new ObservableCollection<Vector2>(vertices);
         }
     }
 }

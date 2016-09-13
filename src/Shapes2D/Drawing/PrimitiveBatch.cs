@@ -54,6 +54,11 @@ namespace Shapes2D.Drawing
 
                 if (shape != null && shape.Fill != Color.Transparent)
                 {
+                    if (shape.TriangleList == null)
+                    {
+                        shape.Triangulate();
+                    }
+
                     for (var j = 0; j < shape.TriangleList.Length; j++)
                     {
                         var position = shape.TriangleList[j] * primitive.Size;
@@ -66,9 +71,9 @@ namespace Shapes2D.Drawing
 
                 if (primitive.Stroke != Color.Transparent)
                 {
-                    for (var j = 0; j < primitive.Vertices.Length * 2; j++)
+                    for (var j = 0; j < primitive.Vertices.Count * 2; j++)
                     {
-                        var position = primitive.Vertices[(j + 1) / 2 % primitive.Vertices.Length] * primitive.Size;
+                        var position = primitive.Vertices[(j + 1) / 2 % primitive.Vertices.Count] * primitive.Size;
                         if (primitive.Rotation != 0) position = Vector2.Transform(position, Matrix.CreateRotationZ(primitive.Rotation));
                         position = position * primitive.Stretch + primitive.Position;
 
