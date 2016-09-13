@@ -1,6 +1,6 @@
 ﻿using System;
 
-namespace Shapes2D.Samples.Grid
+namespace Shapes2D.Samples.Animation
 {
     /// <summary>
     /// The main class.
@@ -13,7 +13,7 @@ namespace Shapes2D.Samples.Grid
         [STAThread]
         static void Main()
         {
-            using (var game = new GridSample())
+            using (var game = new AnimationSample())
                 game.Run();
         }
     }

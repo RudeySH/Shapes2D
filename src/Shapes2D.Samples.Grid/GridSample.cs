@@ -1,8 +1,8 @@
 ﻿using System;
 using Microsoft.Xna.Framework;
-using Microsoft.Xna.Framework.Graphics;
 using Microsoft.Xna.Framework.Input;
 using Shapes2D.Drawing;
+using Shapes2D.Samples.Shared;
 
 namespace Shapes2D.Samples.Grid
 {
@@ -12,51 +12,36 @@ namespace Shapes2D.Samples.Grid
         Square = 4,
         Hexagon = 6
     }
-
-    /// <summary>
-    /// This is the main type for your game.
-    /// </summary>
-    public class Game1 : Game
+    
+    public class GridSample : SampleGame
     {
-        private readonly GraphicsDeviceManager graphics;
-        private SpriteBatch spriteBatch;
-        private SpriteFont spriteFont;
-        private PrimitiveBatch primitiveBatch;
-
-        private const float TriangleRatio = 0.86602540378443864676372317075294f;
-        private MouseState prevMouseState;
-        private float paintDistanceSquared;
-
         // Change these variables to modify the generated grid.
         public GridType GridType = GridType.Hexagon;
         private Vector2 scale = new Vector2(40);
 
-        public Game1()
-        {
-            graphics = new GraphicsDeviceManager(this)
-            {
-                PreferMultiSampling = true, // Only works in DesktopGL.
-                SynchronizeWithVerticalRetrace = false // Unlocks framerate.
-            };
+        private readonly PrimitiveBatch primitiveBatch;
+        private float paintDistanceSquared;
 
-            Content.RootDirectory = "Content";
-            IsMouseVisible = true;
+        public GridSample()
+        {
+            // Create a new PrimitiveBatch, which can be used to draw 2D lines and shapes.
+            primitiveBatch = new PrimitiveBatch(this);
+            Components.Add(primitiveBatch);
 
             paintDistanceSquared = scale.LengthSquared();
         }
 
         protected override void Initialize()
         {
-            // Create a new PrimitiveBatch, which can be used to draw 2D lines and shapes.
-            primitiveBatch = new PrimitiveBatch(this);
+            base.Initialize();
 
             var ratio = GridType == GridType.Square ? Vector2.One : new Vector2(TriangleRatio, 1);
 
             var p = GridType == GridType.Triangle ? 2 :
                     GridType == GridType.Hexagon ? 4f / 3 : 1;
 
-            var height = graphics.PreferredBackBufferHeight / scale.Y * p + 1;
-            var width = graphics.PreferredBackBufferWidth / (int)(ratio.X * scale.X);
+            var height = Graphics.PreferredBackBufferHeight / scale.Y * p + 1;
+            var width = Graphics.PreferredBackBufferWidth / (int)(ratio.X * scale.X);
 
             for (var y = 0; y <= height; y++)
             {
@@ -95,40 +80,21 @@ namespace Shapes2D.Samples.Grid
                     position.X += scale.X * ratio.X * (GridType == GridType.Triangle ? (even ? 1 : 2) * 2f / 3 : 1);
                 }
             }
-
-            Components.Add(primitiveBatch);
-
-            base.Initialize();
-        }
-
-        protected override void LoadContent()
-        {
-            // Create a new SpriteBatch, which can be used to draw textures.
-            spriteBatch = new SpriteBatch(GraphicsDevice);
-
-            spriteFont = Content.Load<SpriteFont>("Font");
-
-            Components.Add(new FrameRateCounter(this, spriteBatch, spriteFont));
-
-            base.LoadContent();
         }
 
         protected override void Update(GameTime gameTime)
         {
-            if (GamePad.GetState(PlayerIndex.One).Buttons.Back == ButtonState.Pressed || Keyboard.GetState().IsKeyDown(Keys.Escape))
-                Exit();
+            base.Update(gameTime);
 
-            var mouseState = Mouse.GetState();
-            
-            var scrollWheelOffset = mouseState.ScrollWheelValue - prevMouseState.ScrollWheelValue;
+            var scrollWheelOffset = CurrentMouseState.ScrollWheelValue - PreviousMouseState.ScrollWheelValue;
             paintDistanceSquared += scrollWheelOffset / 2f;
             if (paintDistanceSquared < 0) paintDistanceSquared = 0;
 
-            var toggleButtonPressed = mouseState.MiddleButton == ButtonState.Pressed && prevMouseState.MiddleButton != ButtonState.Pressed;
+            var toggleButtonPressed = CurrentMouseState.MiddleButton == ButtonState.Pressed && PreviousMouseState.MiddleButton != ButtonState.Pressed;
 
-            if (scrollWheelOffset != 0 || toggleButtonPressed || prevMouseState.Position != mouseState.Position || mouseState.LeftButton == ButtonState.Pressed || mouseState.RightButton == ButtonState.Pressed)
+            if (scrollWheelOffset != 0 || toggleButtonPressed || PreviousMouseState.Position != CurrentMouseState.Position || CurrentMouseState.LeftButton == ButtonState.Pressed || CurrentMouseState.RightButton == ButtonState.Pressed)
             {
-                var mousePosition = mouseState.Position.ToVector2();
+                var mousePosition = CurrentMouseState.Position.ToVector2();
                 bool? visible = null;
 
                 for (var i = 0; i < primitiveBatch.Primitives.Count; i++)
@@ -146,8 +112,8 @@ namespace Shapes2D.Samples.Grid
                     {
                         if (shape != null)
                         {
-                            if (mouseState.LeftButton == ButtonState.Pressed) shape.Fill = GetRandomGridColor();
-                            else if (mouseState.RightButton == ButtonState.Pressed) shape.Fill = Color.Transparent;
+                            if (CurrentMouseState.LeftButton == ButtonState.Pressed) shape.Fill = GetRandomGridColor();
+                            else if (CurrentMouseState.RightButton == ButtonState.Pressed) shape.Fill = Color.Transparent;
                         }
 
                         primitive.Stroke = Color.Red;
@@ -158,25 +124,10 @@ namespace Shapes2D.Samples.Grid
                     }
                 }
             }
-
-            base.Update(gameTime);
-
-            prevMouseState = mouseState;
         }
 
         /// <summary>
-        /// This is called when the game should draw itself.
-        /// </summary>
-        /// <param name="gameTime">Provides a snapshot of timing values.</param>
-        protected override void Draw(GameTime gameTime)
-        {
-            GraphicsDevice.Clear(Color.Black);
-
-            base.Draw(gameTime);
-        }
-
-        /// <summary>
-        /// Returns a random color used for the grid demo.
+        /// Returns a random color for each primitive in the grid.
         /// </summary>
         private static Color GetRandomGridColor()
         {

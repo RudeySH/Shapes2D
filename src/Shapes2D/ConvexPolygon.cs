@@ -10,11 +10,11 @@ namespace Shapes2D
     /// </summary>
     public class ConvexPolygon : Polygon
     {
-        public ConvexPolygon(Vector2[] vertices) : base(vertices) { }
+        public ConvexPolygon(IEnumerable<Vector2> vertices) : base(vertices) { }
 
-        protected override void Triangulate()
+        public override void Triangulate()
         {
-            TriangleList = new Vector2[(Vertices.Length - 2) * 3];
+            TriangleList = new Vector2[(Vertices.Count - 2) * 3];
 
             var vertices = new List<Vector2>(Vertices);
             var triangleListIndex = 0;

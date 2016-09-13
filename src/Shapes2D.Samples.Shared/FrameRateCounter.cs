@@ -2,7 +2,7 @@
 using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
 
-namespace Shapes2D.Samples.Grid
+namespace Shapes2D.Samples.Shared
 {
     /// <summary>
     /// Implementation by Shawn Hargreaves:

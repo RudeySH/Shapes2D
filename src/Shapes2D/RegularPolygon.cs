@@ -18,7 +18,7 @@ namespace Shapes2D
             for (var i = 0; i < edges; i++)
             {
                 var radians = (float)(angle * (i + (edges % 2 == 0 ? 0.5f : 0f)));
-                var vertex = Vertices[i] = Vector2.Transform(-Vector2.UnitY / 2, Matrix.CreateRotationZ(radians));
+                var vertex = Vertices[i] = Vector2.Transform(-Vector2.UnitY / 2, Matrix.CreateRotationZ(radians)); // TODO: simplify
                 if (min.X > vertex.X) min.X = vertex.X; else if (max.X < vertex.X) max.X = vertex.X;
                 if (min.Y > vertex.Y) min.Y = vertex.Y; else if (max.Y < vertex.Y) max.Y = vertex.Y;
             }
@@ -40,7 +40,7 @@ namespace Shapes2D
                         break;
                 }
 
-                for (var i = 0; i < Vertices.Length; i++)
+                for (var i = 0; i < Vertices.Count; i++)
                 {
                     Vertices[i] *= scale;
                 }

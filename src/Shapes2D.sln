@@ -7,6 +7,10 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Shapes2D.Samples.Grid", "Sh
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Shapes2D", "Shapes2D\Shapes2D.csproj", "{6E99176B-2ABE-4AE7-9E44-405A0D003A80}"
 EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Shapes2D.Samples.Animation", "Shapes2D.Samples.Animation\Shapes2D.Samples.Animation.csproj", "{2E943CBB-B197-4BC4-A7D3-1100123D83E9}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Shapes2D.Samples.Shared", "Shapes2D.Samples.Shared\Shapes2D.Samples.Shared.csproj", "{CC0178F2-E377-4373-838F-22FE8092CDC2}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|x86 = Debug|x86
@@ -21,6 +25,14 @@ Global
 		{6E99176B-2ABE-4AE7-9E44-405A0D003A80}.Debug|x86.Build.0 = Debug|x86
 		{6E99176B-2ABE-4AE7-9E44-405A0D003A80}.Release|x86.ActiveCfg = Release|x86
 		{6E99176B-2ABE-4AE7-9E44-405A0D003A80}.Release|x86.Build.0 = Release|x86
+		{2E943CBB-B197-4BC4-A7D3-1100123D83E9}.Debug|x86.ActiveCfg = Debug|x86
+		{2E943CBB-B197-4BC4-A7D3-1100123D83E9}.Debug|x86.Build.0 = Debug|x86
+		{2E943CBB-B197-4BC4-A7D3-1100123D83E9}.Release|x86.ActiveCfg = Release|x86
+		{2E943CBB-B197-4BC4-A7D3-1100123D83E9}.Release|x86.Build.0 = Release|x86
+		{CC0178F2-E377-4373-838F-22FE8092CDC2}.Debug|x86.ActiveCfg = Debug|x86
+		{CC0178F2-E377-4373-838F-22FE8092CDC2}.Debug|x86.Build.0 = Debug|x86
+		{CC0178F2-E377-4373-838F-22FE8092CDC2}.Release|x86.ActiveCfg = Release|x86
+		{CC0178F2-E377-4373-838F-22FE8092CDC2}.Release|x86.Build.0 = Release|x86
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
