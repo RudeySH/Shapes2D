@@ -45,6 +45,7 @@
     <StartupObject />
   </PropertyGroup>
   <ItemGroup>
+    <Compile Include="VertexPositionColorIndex.cs" />
     <Compile Include="VertexScaling.cs" />
     <Compile Include="Shape.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />

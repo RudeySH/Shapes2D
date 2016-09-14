@@ -12,32 +12,39 @@ namespace Shapes2D
     {
         public ConvexPolygon(IEnumerable<Vector2> vertices) : base(vertices) { }
 
-        public override void Triangulate()
+        protected override int[] GetTriangleIndices()
         {
-            TriangleList = new Vector2[(Vertices.Count - 2) * 3];
+            var indices = new int[(Vertices.Count - 2) * 3];
 
-            var vertices = new List<Vector2>(Vertices);
-            var triangleListIndex = 0;
-            var vertexIndex = 0;
+            var verticesToTriangulate = new List<VertexPositionColorIndex>();
+            for (var i = 0; i < Vertices.Count; i++)
+            {
+                verticesToTriangulate.Add(new VertexPositionColorIndex { Position = Vertices[i], Index = i });
+            }
 
-            while (vertices.Count >= 3)
+            var triangleIndex = 0;
+            var cycleIndex = 0;
+
+            while (verticesToTriangulate.Count >= 3)
             {
                 // take first vertex
-                TriangleList[triangleListIndex++] = vertices[vertexIndex];
+                indices[triangleIndex++] = verticesToTriangulate[cycleIndex].Index;
 
                 // cycle to next vertex
-                if (++vertexIndex == vertices.Count) vertexIndex = 0; 
+                if (++cycleIndex == verticesToTriangulate.Count) cycleIndex = 0;
 
                 // take second vertex
-                TriangleList[triangleListIndex++] = vertices[vertexIndex];
+                indices[triangleIndex++] = verticesToTriangulate[cycleIndex].Index;
 
                 // remove ear vertex and cycle to next vertex
-                vertices.RemoveAt(vertexIndex--);
-                if (++vertexIndex == vertices.Count) vertexIndex = 0;
+                verticesToTriangulate.RemoveAt(cycleIndex--);
+                if (++cycleIndex == verticesToTriangulate.Count) cycleIndex = 0;
 
                 // take third vertex
-                TriangleList[triangleListIndex++] = vertices[vertexIndex];
+                indices[triangleIndex++] = verticesToTriangulate[cycleIndex].Index;
             }
+
+            return indices;
         }
     }
 }

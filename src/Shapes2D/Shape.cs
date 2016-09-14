@@ -10,7 +10,7 @@ namespace Shapes2D
         /// <summary>
         /// Triangulated vertices.
         /// </summary>
-        public Vector2[] TriangleList { get; protected set; }
+        internal int[] TriangleIndices { get; private set; }
 
         /// <summary>
         /// Color of the surface.
@@ -21,6 +21,7 @@ namespace Shapes2D
 
         public Shape(IEnumerable<Vector2> vertices) : base(vertices)
         {
+            Stroke = Color.Transparent;
             Vertices.CollectionChanged += Vertices_CollectionChanged;
         }
 
@@ -45,13 +46,18 @@ namespace Shapes2D
                 }
             }
 
-            TriangleList = null;
+            TriangleIndices = null;
         }
 
         /// <summary>
         /// Triangulates the shape, splitting it into triangles.
         /// </summary>
-        public virtual void Triangulate()
+        internal void Triangulate()
+        {
+            TriangleIndices = GetTriangleIndices();
+        }
+
+        protected virtual int[] GetTriangleIndices()
         {
             if (tess == null) tess = new Tess();
 
@@ -66,13 +72,15 @@ namespace Shapes2D
             tess.AddContour(contour, ContourOrientation.Clockwise);
             tess.Tessellate(WindingRule.EvenOdd, ElementType.Polygons, 3);
 
-            TriangleList = new Vector2[tess.Elements.Length];
+            var indices = new int[tess.Elements.Length];
 
-            for (var i = 0; i < TriangleList.Length; i++)
+            for (var i = 0; i < indices.Length; i++)
             {
                 var position = tess.Vertices[tess.Elements[i]].Position;
-                TriangleList[i] = new Vector2(position.X, position.Y);
+                indices[i] = Vertices.IndexOf(new Vector2(position.X, position.Y));
             }
+
+            return indices;
         }
     }
 }

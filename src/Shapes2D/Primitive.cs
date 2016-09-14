@@ -34,7 +34,7 @@ namespace Shapes2D
         /// <summary>
         /// Color of the (out)line.
         /// </summary>
-        public virtual Color Stroke { get; set; }
+        public Color Stroke { get; set; } = Color.White;
 
         protected Primitive(IEnumerable<Vector2> vertices)
         {
