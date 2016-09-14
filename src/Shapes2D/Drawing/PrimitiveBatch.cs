@@ -41,64 +41,83 @@ namespace Shapes2D.Drawing
         public override void Draw(GameTime gameTime)
         {
             base.Draw(gameTime);
-            
-            var triangeList = new Collection<VertexPositionColor>();
-            var lineList = new Collection<VertexPositionColor>();
 
-            // collect all fill and stroke data from all primitives
+            var visible = false;
+            var lineVertices = new Collection<VertexPositionColor>();
+            var lineIndices = new Collection<int>();
+            var triangleVertices = new Collection<VertexPositionColor>();
+            var triangleIndices = new Collection<int>();
+
             for (var i = 0; i < Primitives.Count; i++)
             {
                 var primitive = Primitives[i];
-                
+
                 var shape = primitive as Shape;
 
-                if (shape != null && shape.Fill != Color.Transparent)
+                if (primitive.Stroke != Color.Transparent || shape != null && shape.Fill != Color.Transparent)
                 {
-                    if (shape.TriangleList == null)
-                    {
-                        shape.Triangulate();
-                    }
+                    visible = true;
 
-                    for (var j = 0; j < shape.TriangleList.Length; j++)
+                    var positions = new Vector3[primitive.Vertices.Count];
+                    for (var j = 0; j < primitive.Vertices.Count; j++)
                     {
-                        var position = shape.TriangleList[j] * primitive.Size;
+                        var position = primitive.Vertices[j] * primitive.Size;
                         if (primitive.Rotation != 0) position = Vector2.Transform(position, Matrix.CreateRotationZ(primitive.Rotation));
                         position = position * primitive.Stretch + primitive.Position;
-
-                        triangeList.Add(new VertexPositionColor(new Vector3(position, 0), shape.Fill));
+                        positions[j] = new Vector3(position, 0);
                     }
-                }
 
-                if (primitive.Stroke != Color.Transparent)
-                {
-                    for (var j = 0; j < primitive.Vertices.Count * 2; j++)
+                    if (primitive.Stroke != Color.Transparent)
                     {
-                        var position = primitive.Vertices[(j + 1) / 2 % primitive.Vertices.Count] * primitive.Size;
-                        if (primitive.Rotation != 0) position = Vector2.Transform(position, Matrix.CreateRotationZ(primitive.Rotation));
-                        position = position * primitive.Stretch + primitive.Position;
+                        var offset = lineVertices.Count;
+                        for (var j = 0; j < positions.Length; j++)
+                        {
+                            lineVertices.Add(new VertexPositionColor(positions[j], primitive.Stroke));
+                            lineIndices.Add(offset + j);
+                            lineIndices.Add(offset + (j + 1) % primitive.Vertices.Count);
+                        }
+                    }
 
-                        lineList.Add(new VertexPositionColor(new Vector3(position, 0), primitive.Stroke));
+                    if (shape != null && shape.Fill != Color.Transparent)
+                    {
+                        var offset = triangleVertices.Count;
+                        for (var j = 0; j < positions.Length; j++)
+                        {
+                            triangleVertices.Add(new VertexPositionColor(positions[j], shape.Fill));
+                        }
+
+                        if (shape.TriangleIndices == null)
+                        {
+                            shape.Triangulate();
+                        }
+
+                        for (var j = 0; j < shape.TriangleIndices.Length; j++)
+                        {
+                            triangleIndices.Add(offset + shape.TriangleIndices[j]);
+                        }
                     }
                 }
             }
 
-            if (triangeList.Count != 0 || lineList.Count != 0)
+            if (visible)
             {
-                var triangleListData = triangeList.ToArray();
-                var lineListData = lineList.ToArray();
+                var triangleVertexData = triangleVertices.ToArray();
+                var triangleIndexData = triangleIndices.ToArray();
+                var lineVertexData = lineVertices.ToArray();
+                var lineIndexData = lineIndices.ToArray();
 
                 for (var i = 0; i < basicEffect.CurrentTechnique.Passes.Count; i++)
                 {
                     basicEffect.CurrentTechnique.Passes[i].Apply();
 
-                    if (triangleListData.Length != 0)
+                    if (triangleIndexData.Length != 0)
                     {
-                        GraphicsDevice.DrawUserPrimitives(PrimitiveType.TriangleList, triangleListData, 0, triangleListData.Length / 3);
+                        GraphicsDevice.DrawUserIndexedPrimitives(PrimitiveType.TriangleList, triangleVertexData, 0, triangleVertexData.Length, triangleIndexData, 0, triangleIndexData.Length / 3);
                     }
 
-                    if (lineListData.Length != 0)
+                    if (lineIndexData.Length != 0)
                     {
-                        GraphicsDevice.DrawUserPrimitives(PrimitiveType.LineList, lineListData, 0, lineListData.Length / 2);
+                        GraphicsDevice.DrawUserIndexedPrimitives(PrimitiveType.LineList, lineVertexData, 0, lineVertexData.Length, lineIndexData, 0, lineIndexData.Length / 2);
                     }
                 }
             }
