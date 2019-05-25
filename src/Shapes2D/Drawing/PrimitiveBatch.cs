@@ -15,6 +15,22 @@ namespace Shapes2D.Drawing
         public Collection<Primitive> Primitives { get; } = new Collection<Primitive>();
 
         /// <summary>
+        /// Set the World Matrix to be used when drawing this PrimitiveBatch.
+        /// </summary>
+        public Matrix WorldMatrix
+        {
+            set => basicEffect.World = value;
+        }
+        
+        /// <summary>
+        /// Set the Projection Matrix to be used when drawing this PrimitiveBatch.
+        /// </summary>
+        public Matrix ProjectionMatrix
+        {
+            set => basicEffect.Projection = value;
+        }
+        
+        /// <summary>
         /// Draw 2D lines and shapes.
         /// </summary>
         public PrimitiveBatch(Game game) : base(game) { }
