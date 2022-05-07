@@ -10,7 +10,7 @@ namespace Shapes2D.Drawing
         private BasicEffect basicEffect;
 
         /// <summary>
-        /// Primitives in this collection will be drawed each update, as long as a primitive's Visible property is set to true.
+        /// Primitives in this collection will be drawn each update, as long as a primitive's Visible property is set to true.
         /// </summary>
         public Collection<Primitive> Primitives { get; } = new Collection<Primitive>();
 
